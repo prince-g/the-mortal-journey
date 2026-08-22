@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { VideoHeroSection } from "../../components/landing/sections/VideoHeroSection";
+import { RedSection } from "../../components/landing/sections/RedSection";
 
 export function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -10,7 +11,7 @@ export function HomePage() {
       className="relative h-screen overflow-y-auto overflow-x-hidden bg-black font-manrope"
     >
       <VideoHeroSection />
-      {/* RedSection 在 Task 5 加入 */}
+      <RedSection containerRef={containerRef} />
     </main>
   );
 }
