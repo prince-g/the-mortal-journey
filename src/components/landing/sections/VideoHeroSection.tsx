@@ -1,4 +1,5 @@
 import { LogoMark } from "../LogoMark";
+import heroVideo from "../../../assets/videos/bamboo-pavilion.mp4";
 
 export function VideoHeroSection() {
   return (
@@ -6,7 +7,7 @@ export function VideoHeroSection() {
       {/* 背景视频 */}
       <video
         className="absolute inset-0 z-10 h-full w-full object-cover"
-        src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/cloudinarry%20to%20cloudflare/baby-track-video_crqby5.mp4"
+        src={heroVideo}
         autoPlay
         loop
         muted
