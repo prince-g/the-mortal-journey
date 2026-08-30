@@ -1,52 +1,13 @@
-import type { RefObject } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
 import { LogoMark } from "../LogoMark";
 
-interface RedSectionProps {
-  containerRef: RefObject<HTMLDivElement | null>;
-}
-
-export function RedSection({ containerRef }: RedSectionProps) {
-  const { scrollY } = useScroll({ container: containerRef });
-  const cloudYDesktop = useTransform(scrollY, [0, 300], [0, -100]);
-  const cloudYMobile = useTransform(scrollY, [0, 300], [0, -24]);
-
+export function RedSection() {
   return (
     <section
       id="mortal-way"
       className="relative z-10 flex min-h-screen w-full scroll-mt-20 flex-col bg-[#013440]"
     >
-      {/* 桌面云层 */}
-      <motion.div
-        style={{ y: cloudYDesktop }}
-        className="pointer-events-none absolute top-0 left-0 z-[100] hidden w-full -translate-y-1/2 md:block"
-      >
-        <img
-          src="https://res.cloudinary.com/dsdhxhhqh/image/upload/v1781500777/cloude_vj4pjv.png"
-          className="block h-auto w-full"
-          referrerPolicy="no-referrer"
-          alt=""
-        />
-      </motion.div>
-
-      {/* 移动云层 */}
-      <motion.div
-        style={{ y: cloudYMobile }}
-        className="pointer-events-none absolute top-0 left-0 z-[100] w-full -translate-y-1/2 md:hidden"
-      >
-        <img
-          src="https://res.cloudinary.com/dsdhxhhqh/image/upload/v1781500777/cloude_vj4pjv.png"
-          className="block h-auto w-full"
-          referrerPolicy="no-referrer"
-          alt=""
-        />
-      </motion.div>
-
       {/* 内容区 */}
-      <div
-        id="wallpapers"
-        className="flex w-full flex-1 scroll-mt-20 flex-col items-center pt-[100px] md:pt-[400px]"
-      >
+      <div className="flex w-full flex-1 flex-col items-center pt-[120px] md:pt-[240px]">
         <div className="relative z-20 mx-auto flex h-auto w-full max-w-[900px] flex-col items-center px-8 text-center md:h-[620px]">
           <LogoMark size={80} className="h-[80px] w-[80px] text-white" />
           <p className="mx-auto mb-[40px] h-[100px] max-w-[400px] text-[16px] leading-[1.6] tracking-wider text-white uppercase">
