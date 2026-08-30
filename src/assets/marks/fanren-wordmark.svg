@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1673" height="330" viewBox="0 0 1673 330">
+  <defs>
+    <style>
+      .wordmark {
+        font-size: 100px;
+        fill: #fff;
+        text-anchor: middle;
+        font-family: "汉仪黄科榜书 W", HYHuangKeBangShu-W, HYHuangKeBangShu, serif;
+      }
+    </style>
+  </defs>
+  <text class="wordmark" transform="translate(846 281.62) scale(3.527)"><tspan x="0">凡人修仙传</tspan></text>
+</svg>
