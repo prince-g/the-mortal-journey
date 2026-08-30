@@ -34,6 +34,19 @@ test("壁纸合集渲染三张 GSAP 字标卡片且不再使用图片", () => {
   assert.doesNotMatch(html, /wallpaper-gallery__mist/);
 });
 
+test("人物卡片使用两段不同的本地视频且不渲染文字信息层", () => {
+  const html = renderToStaticMarkup(createElement(WallpaperGallerySection));
+  const videoSources = [...html.matchAll(/<video[^>]+src="([^"]+)"/g)].map(
+    ([, source]) => source,
+  );
+
+  assert.equal(videoSources.length, 2);
+  assert.equal(new Set(videoSources).size, 2);
+  assert.equal((html.match(/autoPlay=""/g) ?? []).length, 2);
+  assert.equal((html.match(/loop=""/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /pc-details|pc-user-info|pc-contact-btn/);
+});
+
 test("首页滚动条使用墨青主题而不是系统白色轨道", async () => {
   const [homePage, globalStyles] = await Promise.all([
     readFile("src/pages/home/HomePage.tsx", "utf8"),

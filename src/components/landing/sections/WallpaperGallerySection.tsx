@@ -1,11 +1,18 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import profileShijie from "../../../assets/videos/师姐.mp4";
+import profileZhenggong from "../../../assets/videos/正宫.mp4";
+import { VideoProfileCard } from "../VideoProfileCard";
 import "./WallpaperGallerySection.css";
 
 gsap.registerPlugin(useGSAP);
 
 const cardLabels = ["GSAP", "GSAP", "GSAP"];
+const profileVideos = [
+  { label: "正宫人物视频", src: profileZhenggong },
+  { label: "师姐人物视频", src: profileShijie },
+];
 
 export function WallpaperGallerySection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -103,6 +110,20 @@ export function WallpaperGallerySection() {
               </sup>
             </div>
           </figure>
+        ))}
+      </div>
+
+      <div
+        className="video-profile-gallery"
+        role="region"
+        aria-label="人物视频卡片"
+      >
+        {profileVideos.map((video) => (
+          <VideoProfileCard
+            key={video.src}
+            label={video.label}
+            src={video.src}
+          />
         ))}
       </div>
     </section>
