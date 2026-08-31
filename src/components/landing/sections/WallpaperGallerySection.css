@@ -7,6 +7,8 @@
     #abff84 77.6%,
     #2fee65 100%
   );
+  --gallery-card-gap: clamp(0.65rem, 1.3vw, 1.25rem);
+  --gallery-content-width: min(100%, 100rem);
   position: relative;
   z-index: 20;
   min-height: 64vh;
@@ -18,8 +20,8 @@
 .wallpaper-gallery__track {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.65rem, 1.3vw, 1.25rem);
-  width: min(100%, 100rem);
+  gap: var(--gallery-card-gap);
+  width: var(--gallery-content-width);
   margin: 0 auto;
   perspective: 1100px;
   outline: none;
@@ -75,8 +77,8 @@
 .video-profile-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 2rem);
-  width: min(100%, 80rem);
+  gap: var(--gallery-card-gap);
+  width: var(--gallery-content-width);
   margin: clamp(6rem, 10vw, 10rem) auto 0;
 }
 

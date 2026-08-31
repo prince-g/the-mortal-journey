@@ -73,45 +73,118 @@
 
 .video-profile-card__shine {
   z-index: 2;
+}
+
+.video-profile-card__code-mark {
+  position: absolute;
+  top: var(--code-y);
+  left: var(--code-x);
+  opacity: 0.24;
+  transform: translate(-50%, -50%) rotate(var(--code-rotate))
+    scale(var(--code-scale));
+  transition: opacity 260ms ease;
+}
+
+.video-profile-card__code-mark::before {
+  display: block;
   background-image:
     repeating-linear-gradient(
-      -45deg,
+      0deg,
       hsl(2 100% 73%) 0%,
-      hsl(53 100% 69%) 5%,
-      hsl(93 100% 69%) 10%,
-      hsl(176 100% 76%) 15%,
-      hsl(228 100% 74%) 20%,
-      hsl(283 100% 73%) 25%,
-      hsl(2 100% 73%) 30%
+      hsl(53 100% 69%) 16%,
+      hsl(93 100% 69%) 32%,
+      hsl(176 100% 76%) 48%,
+      hsl(228 100% 74%) 64%,
+      hsl(283 100% 73%) 80%,
+      hsl(2 100% 73%) 100%
     ),
     radial-gradient(
       farthest-corner circle at var(--pointer-x) var(--pointer-y),
-      rgb(255 255 255 / 0.58),
-      transparent 62%
+      white 5%,
+      transparent 68%
     );
   background-position:
     var(--pointer-x) var(--pointer-y),
     center;
   background-size:
-    320% 320%,
+    260% 260%,
     100% 100%;
+  background-clip: text;
+  color: transparent;
+  content: "</>";
+  filter: brightness(1.12) saturate(1.3);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(2.25rem, 4.8vw, 5.25rem);
+  font-weight: 900;
+  line-height: 1;
   mix-blend-mode: color-dodge;
-  opacity: 0.2;
-  transition: opacity 260ms ease;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.video-profile-card__shell:hover .video-profile-card__shine {
-  opacity: 0.46;
+.video-profile-card__code-mark:nth-child(1) {
+  --code-x: 13%;
+  --code-y: 27%;
+  --code-rotate: -12deg;
+  --code-scale: 0.7;
+}
+
+.video-profile-card__code-mark:nth-child(2) {
+  --code-x: 73%;
+  --code-y: 19%;
+  --code-rotate: 9deg;
+  --code-scale: 0.56;
+}
+
+.video-profile-card__code-mark:nth-child(3) {
+  --code-x: 48%;
+  --code-y: 53%;
+  --code-rotate: -4deg;
+  --code-scale: 1.08;
+}
+
+.video-profile-card__code-mark:nth-child(4) {
+  --code-x: 18%;
+  --code-y: 78%;
+  --code-rotate: 8deg;
+  --code-scale: 0.62;
+}
+
+.video-profile-card__code-mark:nth-child(5) {
+  --code-x: 84%;
+  --code-y: 71%;
+  --code-rotate: -14deg;
+  --code-scale: 0.76;
+}
+
+.video-profile-card__code-mark:nth-child(6) {
+  --code-x: 63%;
+  --code-y: 88%;
+  --code-rotate: 4deg;
+  --code-scale: 0.52;
+}
+
+.video-profile-card__code-mark:nth-child(7) {
+  --code-x: 92%;
+  --code-y: 39%;
+  --code-rotate: 13deg;
+  --code-scale: 0.48;
+}
+
+.video-profile-card__shell:hover .video-profile-card__code-mark {
+  opacity: 0.7;
 }
 
 .video-profile-card__glare {
   z-index: 3;
-  background: radial-gradient(
-    farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    rgb(236 232 255 / 0.46) 8%,
-    rgb(45 66 92 / 0.18) 42%,
-    transparent 72%
-  );
+  background-image:
+    radial-gradient(
+      farthest-corner circle at var(--pointer-x) var(--pointer-y),
+      rgb(236 232 255 / 0.46) 8%,
+      rgb(45 66 92 / 0.18) 42%,
+      transparent 72%
+    );
   mix-blend-mode: screen;
   opacity: 0.42;
 }
@@ -126,7 +199,7 @@
     display: none;
   }
 
-  .video-profile-card__shine {
-    opacity: 0.16;
+  .video-profile-card__code-mark {
+    opacity: 0.28;
   }
 }

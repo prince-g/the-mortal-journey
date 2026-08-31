@@ -47,6 +47,33 @@ test("人物卡片使用两段不同的本地视频且不渲染文字信息层",
   assert.doesNotMatch(html, /pc-details|pc-user-info|pc-contact-btn/);
 });
 
+test("人物卡片将彩虹纹理限制在代码符号中并与上方卡片组等宽", async () => {
+  const html = renderToStaticMarkup(createElement(WallpaperGallerySection));
+  const [cardStyles, galleryStyles] = await Promise.all([
+    readFile("src/components/landing/VideoProfileCard.css", "utf8"),
+    readFile(
+      "src/components/landing/sections/WallpaperGallerySection.css",
+      "utf8",
+    ),
+  ]);
+
+  assert.equal(
+    (html.match(/class="video-profile-card__code-mark"/g) ?? []).length,
+    14,
+  );
+  assert.match(cardStyles, /\.video-profile-card__code-mark::before\s*\{/);
+  assert.match(cardStyles, /content:\s*"<\/>"/);
+  assert.match(
+    galleryStyles,
+    /--gallery-content-width:\s*min\(100%,\s*100rem\)/,
+  );
+  assert.equal(
+    (galleryStyles.match(/width:\s*var\(--gallery-content-width\)/g) ?? [])
+      .length,
+    2,
+  );
+});
+
 test("首页滚动条使用墨青主题而不是系统白色轨道", async () => {
   const [homePage, globalStyles] = await Promise.all([
     readFile("src/pages/home/HomePage.tsx", "utf8"),

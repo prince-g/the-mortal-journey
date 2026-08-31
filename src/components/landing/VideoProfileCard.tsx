@@ -47,7 +47,14 @@ export function VideoProfileCard({ label, src }: VideoProfileCardProps) {
             preload="metadata"
             aria-hidden="true"
           />
-          <div className="video-profile-card__shine" aria-hidden="true" />
+          <div className="video-profile-card__shine" aria-hidden="true">
+            {Array.from({ length: 7 }, (_, index) => (
+              <span
+                className="video-profile-card__code-mark"
+                key={index}
+              />
+            ))}
+          </div>
           <div className="video-profile-card__glare" aria-hidden="true" />
         </div>
       </div>
