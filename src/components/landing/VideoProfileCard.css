@@ -111,7 +111,7 @@
     100% 100%;
   background-clip: text;
   color: transparent;
-  content: "</>";
+  /*content: "";*/
   filter: brightness(1.12) saturate(1.3);
   font-family: "Arial Black", Arial, sans-serif;
   font-size: clamp(2.25rem, 4.8vw, 5.25rem);

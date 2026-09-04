@@ -1,5 +1,6 @@
 import { Menu, UserRound } from "lucide-react";
-import wordmark from "../../assets/marks/fanren-wordmark.svg";
+// import wordmark from "../../assets/marks/fanren-wordmark.svg";
+import wordmark from "../../assets/marks/凡人修仙.svg";
 
 const navigationItems = [
   { label: "首页", href: "#home" },
