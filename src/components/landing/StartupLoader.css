@@ -1,0 +1,214 @@
+.startup-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  color: #d9ded8;
+  background: #000;
+  isolation: isolate;
+}
+
+.startup-loader__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(78vw, 27rem);
+  flex-direction: column;
+  align-items: center;
+  animation: startup-content-enter 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.startup-loader__mark-frame {
+  display: grid;
+  width: clamp(12rem, 20vw, 17rem);
+  aspect-ratio: 16 / 9;
+  place-items: center;
+}
+
+.startup-loader__mark {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: invert(1) sepia(1) saturate(3.2) brightness(1.35);
+  animation: startup-mark-breathe 3.2s ease-in-out infinite;
+}
+
+.startup-loader__progress-block {
+  width: 100%;
+  margin-top: clamp(1.5rem, 3.8vh, 2.5rem);
+}
+
+.startup-loader__track {
+  height: 1px;
+  overflow: hidden;
+  background: rgb(205 218 211 / 0.2);
+}
+
+.startup-loader__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #7a6947, #d4c493 72%, #e6e2cf);
+  transform-origin: left center;
+}
+
+.startup-loader__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.85rem;
+}
+
+.startup-loader__title {
+  color: rgb(218 225 219 / 0.7);
+  font-family: "Italiana", serif;
+  font-size: clamp(0.73rem, 1.1vw, 0.86rem);
+  line-height: 1.4;
+  letter-spacing: clamp(0.14em, 0.34vw, 0.25em);
+  white-space: nowrap;
+}
+
+.startup-loader__value {
+  min-width: 3.4rem;
+  color: rgb(224 228 220 / 0.76);
+  font-family: "Manrope", sans-serif;
+  font-size: 0.67rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.16em;
+  text-align: right;
+}
+
+.startup-loader--exiting {
+  pointer-events: none;
+  animation: startup-loader-exit 900ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.startup-loader--exiting .startup-loader__mark {
+  animation: startup-mark-exit 620ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.startup-loader--exiting .startup-loader__progress-block {
+  animation: startup-progress-exit 440ms cubic-bezier(0.4, 0, 0.2, 1) 80ms forwards;
+}
+
+.startup-loader--exiting .startup-loader__title {
+  animation: startup-title-exit 520ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.startup-home-content {
+  min-height: 100%;
+  transform-origin: 50% 38%;
+  transition:
+    filter 760ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.startup-home-content--veiled {
+  filter: saturate(0.72) brightness(0.64);
+  transform: scale(1.008);
+}
+
+.home-scroll[data-startup-active] {
+  overflow-y: hidden;
+}
+
+@keyframes startup-content-enter {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes startup-mark-breathe {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: scale(0.992);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.008);
+  }
+}
+
+@keyframes startup-loader-exit {
+  0%,
+  52% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes startup-mark-exit {
+  to {
+    opacity: 0;
+    filter: invert(1) sepia(1) saturate(3.2) brightness(1.35) blur(8px);
+    transform: translateY(-18px) scale(0.985);
+  }
+}
+
+@keyframes startup-progress-exit {
+  to {
+    opacity: 0;
+    transform: scaleX(0.82);
+  }
+}
+
+@keyframes startup-title-exit {
+  to {
+    opacity: 0;
+    letter-spacing: 0.38em;
+  }
+}
+
+@media (max-width: 639px) {
+  .startup-loader__content {
+    width: min(82vw, 22rem);
+  }
+
+  .startup-loader__mark-frame {
+    width: min(58vw, 14.5rem);
+  }
+
+  .startup-loader__title {
+    max-width: calc(100% - 4.4rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-loader__content,
+  .startup-loader__mark {
+    animation: none;
+  }
+
+  .startup-loader--exiting {
+    animation: startup-loader-exit 180ms ease-out both;
+  }
+
+  .startup-loader--exiting .startup-loader__mark,
+  .startup-loader--exiting .startup-loader__progress-block,
+  .startup-loader--exiting .startup-loader__title {
+    animation: none;
+  }
+
+  .startup-home-content {
+    transition-duration: 180ms;
+  }
+}

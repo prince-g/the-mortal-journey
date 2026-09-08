@@ -29,19 +29,6 @@ export function RedSection() {
           </div>
         </div>
       </div>
-
-      {/* 底部视频块 */}
-      <div id="effects" className="relative w-full shrink-0 scroll-mt-20">
-        <div className="pointer-events-none absolute top-0 left-0 z-10 h-[100px] w-full bg-gradient-to-b from-[#FF0000] to-transparent" />
-        <video
-          className="block h-auto w-full object-contain"
-          src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/cloudinarry%20to%20cloudflare/track-video_2_haxdch.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
-      </div>
     </section>
   );
 }

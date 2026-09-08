@@ -25,7 +25,7 @@ import "./WallpaperGallerySection.css";
 
 gsap.registerPlugin(useGSAP);
 
-const cardLabels = ["GSAP", "GSAP", "GSAP"];
+const cardLabels = ["仙途", "惊鸿", "道友"];
 const profileVideos = [
   { label: "正宫人物视频", src: profileZhenggong },
   { label: "师姐人物视频", src: profileShijie },
