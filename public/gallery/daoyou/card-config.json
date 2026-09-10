@@ -18,7 +18,8 @@
     "subjectScale": 1.25,
     "subjectDepth": 0.28,
     "backgroundDepth": -0.2,
-    "foil": 0.62
+    "foil": 0.62,
+    "foilHue": 0
   },
   "runtimeComposition": {
     "subjectScale": 1,
@@ -33,5 +34,16 @@
   },
   "appearance": {
     "background": "#06181f"
-  }
+  },
+  "cards": [
+    { "parameters": { "foilHue": 0.0 } },
+    { "parameters": { "foilHue": 0.09 } },
+    { "parameters": { "foilHue": 0.18 } },
+    { "parameters": { "foilHue": 0.27 } },
+    { "parameters": { "foilHue": 0.36 } },
+    { "parameters": { "foilHue": 0.45 } },
+    { "parameters": { "foilHue": 0.54 } },
+    { "parameters": { "foilHue": 0.63 } },
+    { "parameters": { "foilHue": 0.72 } }
+  ]
 }

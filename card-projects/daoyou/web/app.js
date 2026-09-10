@@ -22,7 +22,7 @@ controls.forEach((control) => { control.disabled = true; });
 document.getElementById("retry").addEventListener("click", () => location.reload());
 
 let renderer;
-let sharedUniforms;
+let cardVisuals = [];
 let cardRoots = [];
 let cardStates = [];
 let elapsed = 0;
@@ -40,7 +40,7 @@ void main() {
 const commonShader = `
 precision highp float;
 varying vec2 vUv;
-uniform float uTime, uFoil, uScale, uDepth, uBgDepth, uHasLine, uSafeScale;
+uniform float uTime, uFoil, uScale, uDepth, uBgDepth, uHasLine, uSafeScale, uFoilHue;
 uniform vec2 uCover, uFit, uSafeOffset;
 uniform vec3 uView;
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
@@ -52,7 +52,7 @@ vec3 spectrum(float phase) {
   return .66 + .25 * cos(6.28318 * (phase + vec3(0., .33, .67)));
 }
 vec3 film(vec2 uv) {
-  float phase = uv.x * .85 + uv.y * .55 + uView.x * 1.5 - uView.y * .9;
+  float phase = uv.x * .85 + uv.y * .55 + uView.x * 1.5 - uView.y * .9 + uFoilHue;
   vec3 color = spectrum(phase);
   return mix(color, vec3(dot(color,vec3(.2126,.7152,.0722))), .12);
 }
@@ -143,9 +143,9 @@ function createBackTexture() {
   return canvasTexture(canvas);
 }
 
-function shaderMaterial(fragmentShader) {
+function shaderMaterial(fragmentShader, uniforms) {
   return new THREE.ShaderMaterial({
-    uniforms: sharedUniforms,
+    uniforms,
     vertexShader,
     fragmentShader,
     side: THREE.FrontSide,
@@ -158,7 +158,7 @@ function setTextureDefaults(texture) {
 }
 
 function setCardView(root) {
-  sharedUniforms.uView.value
+  root.userData.uniforms.uView.value
     .copy(camera.position)
     .applyMatrix4(inverse.copy(root.matrixWorld).invert())
     .normalize();
@@ -178,7 +178,55 @@ function installMaterials(model, materials, root) {
   return frontCount;
 }
 
-function createCards(sourceModel, materials) {
+function hasFrontMaterial(model) {
+  let found = false;
+  model.traverse((object) => {
+    if (!object.isMesh) return;
+    const role = object.userData.materialRole || object.material?.name;
+    if (role === "web_front") found = true;
+  });
+  return found;
+}
+
+function mergeCardConfig(config, index) {
+  const override = config.cards?.[index] || {};
+  return {
+    assets: { ...(config.assets || {}), ...(override.assets || {}) },
+    parameters: { ...(config.parameters || {}), ...(override.parameters || {}) },
+    runtimeComposition: { ...(config.runtimeComposition || {}), ...(override.runtimeComposition || {}) },
+    safeArea: { ...(config.safeArea || {}), ...(override.safeArea || {}) },
+  };
+}
+
+function makeUniforms(cardConfig, textures, backTexture) {
+  const { assets, parameters, runtimeComposition, safeArea } = cardConfig;
+  const subject = textures.subject.image;
+  const imageAspect = subject.width / subject.height;
+  const cover = imageAspect < 2 / 3 ? [1, imageAspect / (2 / 3)] : [(2 / 3) / imageAspect, 1];
+  return {
+    tSubject: { value: textures.subject },
+    tBackground: { value: textures.background },
+    tText: { value: textures.text },
+    tLine: { value: textures.lineart },
+    tBack: { value: backTexture },
+    uTime: { value: 0 },
+    uView: { value: new THREE.Vector3(0, 0, 1) },
+    uCover: { value: new THREE.Vector2(...cover) },
+    uFit: { value: new THREE.Vector2(1, 1) },
+    uFoil: { value: parameters.foil ?? 0.62 },
+    uFoilHue: { value: parameters.foilHue ?? 0 },
+    uScale: { value: runtimeComposition.subjectScale ?? 1 },
+    uDepth: { value: parameters.subjectDepth ?? 0.28 },
+    uBgDepth: { value: parameters.backgroundDepth ?? -0.2 },
+    uSafeScale: { value: runtimeComposition.safeScale ?? 1 },
+    uSafeOffset: {
+      value: new THREE.Vector2(safeArea.offset?.[0] ?? 0, -(safeArea.offset?.[1] ?? 0)),
+    },
+    uHasLine: { value: assets.lineart ? 1 : 0 },
+  };
+}
+
+function createCards(sourceModel, cardConfigs, cardTextures, backTexture, goldMaterial) {
   cardStates = Array.from({ length: CARD_COUNT }, (_, index) => ({
     index,
     flipped: false,
@@ -196,13 +244,29 @@ function createCards(sourceModel, materials) {
     resetTimer: 0,
   }));
 
+  cardVisuals = cardConfigs.map((cardConfig, index) => {
+    const uniforms = makeUniforms(cardConfig, cardTextures[index], backTexture);
+    return {
+      uniforms,
+      baseFoil: uniforms.uFoil.value,
+      baseFoilHue: uniforms.uFoilHue.value,
+      materials: {
+        web_front: shaderMaterial(frontFragment, uniforms),
+        web_back: shaderMaterial(backFragment, uniforms),
+        web_edge: shaderMaterial(edgeFragment, uniforms),
+        web_gold: goldMaterial,
+      },
+    };
+  });
+
   cardRoots = cardStates.map((state) => {
     const root = new THREE.Group();
     const model = sourceModel.clone(true);
     root.userData.cardIndex = state.index;
+    root.userData.uniforms = cardVisuals[state.index].uniforms;
     root.add(model);
     scene.add(root);
-    installMaterials(model, materials, root);
+    installMaterials(model, cardVisuals[state.index].materials, root);
     return root;
   });
 }
@@ -211,7 +275,7 @@ function updateLayout() {
   if (!renderer || !cardRoots.length) return;
   const width = stage.clientWidth;
   const { columns } = getGalleryLayout(innerWidth);
-  const gap = columns === 3 ? 34 : columns === 2 ? 28 : 24;
+  const gap = columns === 3 ? 60 : columns === 2 ? 44 : 28;
   const side = columns === 1 ? 14 : 20;
   const maxCardWidth = columns === 1 ? 330 : 300;
   const available = width - side * 2 - gap * (columns - 1);
@@ -371,11 +435,11 @@ function animate(now) {
   const delta = Math.min((now - lastFrame) / 1000, 0.05) || 0;
   lastFrame = now;
   if (!reducedMotion.matches) elapsed += delta;
-  sharedUniforms.uTime.value = reducedMotion.matches ? 0 : elapsed;
   const ease = reducedMotion.matches ? 1 : 1 - Math.exp(-delta * 10);
 
   cardStates.forEach((state, index) => {
     const root = cardRoots[index];
+    const visual = cardVisuals[index];
     let idleX = 0;
     let idleY = 0;
     if (!reducedMotion.matches && !state.active && !state.dragging) {
@@ -386,6 +450,11 @@ function animate(now) {
     state.currentY += (state.targetY + idleY - state.currentY) * ease;
     root.rotation.set(state.currentX, state.currentY, 0);
     root.position.z = state.active ? 0.1 : 0;
+
+    visual.uniforms.uTime.value = reducedMotion.matches ? 0 : elapsed + index * 1.37;
+    const targetFoil = Math.min(1, visual.baseFoil + (state.active ? 0.3 : 0));
+    visual.uniforms.uFoil.value += (targetFoil - visual.uniforms.uFoil.value) * ease;
+
     root.updateMatrixWorld(true);
   });
 
@@ -429,54 +498,31 @@ async function init() {
   stage.prepend(renderer.domElement);
 
   const loader = new THREE.TextureLoader();
-  const [subject, background, text, lineart] = await Promise.all([
-    loader.loadAsync(config.assets.subject),
-    loader.loadAsync(config.assets.background),
-    loader.loadAsync(config.assets.text),
-    loader.loadAsync(config.assets.lineart),
-  ]);
+  const textureCache = new Map();
+  const loadTexture = async (url) => {
+    if (!url) return null;
+    if (textureCache.has(url)) return textureCache.get(url);
+    const texture = await loader.loadAsync(url);
+    setTextureDefaults(texture);
+    textureCache.set(url, texture);
+    return texture;
+  };
+
+  const cardConfigs = Array.from({ length: CARD_COUNT }, (_, index) => mergeCardConfig(config, index));
+  const backTexture = createBackTexture();
+  const cardTextures = await Promise.all(cardConfigs.map(async (cardConfig) => ({
+    subject: await loadTexture(cardConfig.assets.subject),
+    background: await loadTexture(cardConfig.assets.background),
+    text: await loadTexture(cardConfig.assets.text),
+    lineart: await loadTexture(cardConfig.assets.lineart),
+  })));
   if (failed) return;
-  [subject, background, text, lineart].forEach(setTextureDefaults);
 
-  const imageAspect = subject.image.width / subject.image.height;
-  const cover = imageAspect < 2 / 3 ? [1, imageAspect / (2 / 3)] : [(2 / 3) / imageAspect, 1];
-  const parameters = config.parameters || {};
-  const runtimeComposition = config.runtimeComposition || {};
-  sharedUniforms = {
-    tSubject: { value: subject },
-    tBackground: { value: background },
-    tText: { value: text },
-    tLine: { value: lineart },
-    tBack: { value: createBackTexture() },
-    uTime: { value: 0 },
-    uView: { value: new THREE.Vector3(0, 0, 1) },
-    uCover: { value: new THREE.Vector2(...cover) },
-    uFit: { value: new THREE.Vector2(1, 1) },
-    uFoil: { value: parameters.foil ?? 0.62 },
-    uScale: { value: runtimeComposition.subjectScale ?? 1 },
-    uDepth: { value: parameters.subjectDepth ?? 0.28 },
-    uBgDepth: { value: parameters.backgroundDepth ?? -0.2 },
-    uSafeScale: { value: runtimeComposition.safeScale ?? 1 },
-    uSafeOffset: {
-      value: new THREE.Vector2(
-        config.safeArea?.offset?.[0] ?? 0,
-        -(config.safeArea?.offset?.[1] ?? 0),
-      ),
-    },
-    uHasLine: { value: config.assets.lineart ? 1 : 0 },
-  };
-
-  const materials = {
-    web_front: shaderMaterial(frontFragment),
-    web_back: shaderMaterial(backFragment),
-    web_edge: shaderMaterial(edgeFragment),
-    web_gold: new THREE.MeshBasicMaterial({ color: "#c9a24a" }),
-  };
+  const goldMaterial = new THREE.MeshBasicMaterial({ color: "#c9a24a" });
   const gltf = await new GLTFLoader().loadAsync(config.assets.model);
   if (failed) return;
-  const probeRoot = new THREE.Group();
-  if (!installMaterials(gltf.scene, materials, probeRoot)) throw new Error("卡片模型缺少 web_front 材质");
-  createCards(gltf.scene, materials);
+  if (!hasFrontMaterial(gltf.scene)) throw new Error("卡片模型缺少 web_front 材质");
+  createCards(gltf.scene, cardConfigs, cardTextures, backTexture, goldMaterial);
   bindControls();
   updateLayout();
   new ResizeObserver(updateLayout).observe(stage);
@@ -504,6 +550,7 @@ async function init() {
     camera,
     cardRoots,
     cardStates,
+    cardVisuals,
     getRendererCount: () => 1,
   };
   renderer.setAnimationLoop(animate);
