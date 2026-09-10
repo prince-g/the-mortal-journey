@@ -4,3 +4,6 @@ dist
 .DS_Store
 .idea
 .worktrees/
+card-projects/daoyou/tools/
+card-projects/daoyou/web/node_modules/
+card-projects/daoyou/.tmp/

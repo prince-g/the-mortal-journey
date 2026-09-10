@@ -1,0 +1,16 @@
+{
+  "name": "daoyou-card-gallery",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild app.js --bundle --outfile=app.bundle.js --platform=browser --format=esm --minify",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9"
+  }
+}

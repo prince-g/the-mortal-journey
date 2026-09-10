@@ -25,7 +25,17 @@ import "./WallpaperGallerySection.css";
 
 gsap.registerPlugin(useGSAP);
 
-const cardLabels = ["仙途", "惊鸿", "道友"];
+export type GalleryEntry = {
+  id: "xiantu" | "jinghong" | "daoyou";
+  label: string;
+  href?: string;
+};
+
+export const galleryEntries = [
+  { id: "xiantu", label: "仙途" },
+  { id: "jinghong", label: "惊鸿" },
+  { id: "daoyou", label: "道友", href: "/gallery/daoyou/index.html" },
+] as const satisfies readonly GalleryEntry[];
 const profileVideos = [
   { label: "正宫人物视频", src: profileZhenggong },
   { label: "师姐人物视频", src: profileShijie },
@@ -179,6 +189,17 @@ function ImmortalImageGallery() {
   );
 }
 
+function GalleryEntryWordmark({ label }: Pick<GalleryEntry, "label">) {
+  return (
+    <div className="wallpaper-card__logo" role="img" aria-label={label}>
+      <span className="wallpaper-card__wordmark">{label}</span>
+      <sup className="wallpaper-card__registered" aria-hidden="true">
+        ®
+      </sup>
+    </div>
+  );
+}
+
 export function WallpaperGallerySection() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -266,14 +287,19 @@ export function WallpaperGallerySection() {
         aria-label="三张 GSAP 动效卡片，可横向滚动"
         tabIndex={0}
       >
-        {cardLabels.map((label, index) => (
-          <figure className="wallpaper-card" key={index}>
-            <div className="wallpaper-card__logo" role="img" aria-label={label}>
-              <span className="wallpaper-card__wordmark">{label}</span>
-              <sup className="wallpaper-card__registered" aria-hidden="true">
-                ®
-              </sup>
-            </div>
+        {galleryEntries.map((entry) => (
+          <figure className="wallpaper-card" key={entry.id}>
+            {"href" in entry ? (
+              <a
+                className="wallpaper-card__link"
+                href={entry.href}
+                aria-label={`打开${entry.label}闪卡画廊`}
+              >
+                <GalleryEntryWordmark label={entry.label} />
+              </a>
+            ) : (
+              <GalleryEntryWordmark label={entry.label} />
+            )}
           </figure>
         ))}
       </div>

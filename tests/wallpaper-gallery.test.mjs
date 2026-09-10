@@ -35,6 +35,29 @@ test("壁纸合集渲染三张 GSAP 字标卡片", () => {
   assert.doesNotMatch(html, /wallpaper-gallery__mist/);
 });
 
+test("道友卡片链接到独立闪卡页且桌面卡片间距更舒展", async () => {
+  const [html, styles] = await Promise.all([
+    Promise.resolve(
+      renderToStaticMarkup(createElement(WallpaperGallerySection)),
+    ),
+    readFile(
+      "src/components/landing/sections/WallpaperGallerySection.css",
+      "utf8",
+    ),
+  ]);
+
+  assert.match(html, /<a[^>]+href="\/gallery\/daoyou\/index\.html"[^>]*>/);
+  assert.equal((html.match(/href="\/gallery\//g) ?? []).length, 1);
+  assert.match(html, /仙途/);
+  assert.match(html, /惊鸿/);
+  assert.match(html, /道友/);
+  assert.match(
+    styles,
+    /--gallery-card-gap:\s*clamp\(2rem,\s*3vw,\s*2\.5rem\)/,
+  );
+  assert.match(styles, /\.wallpaper-card__link:focus-visible/);
+});
+
 test("凡人修仙标题下方渲染九项图片滚轮和首张选中图片", () => {
   const html = renderToStaticMarkup(createElement(WallpaperGallerySection));
   const expectedLabels = [

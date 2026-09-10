@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#06181f" />
+    <meta name="color-scheme" content="dark" />
+    <title>道友 · 九宫闪卡</title>
+    <link rel="preload" href="./assets/daoyou-display.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="back-link" href="/">返回首页</a>
+      <div class="title-group">
+        <h1>道友</h1>
+        <p>移动视角，唤醒九重灵光</p>
+      </div>
+      <p class="hint">拖动旋转 · 点击翻面</p>
+    </header>
+
+    <main>
+      <section class="gallery" aria-label="道友 3D 闪卡画廊">
+        <div id="status" class="status" role="status" aria-live="polite">
+          <span class="status-mark" aria-hidden="true"></span>
+          <span id="status-copy">正在唤醒卡面</span>
+        </div>
+
+        <div id="stage" class="stage" aria-busy="true">
+          <div class="controls" aria-label="九张可交互闪卡">
+            <button class="card-control" type="button" aria-label="道友闪卡 1" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 2" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 3" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 4" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 5" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 6" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 7" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 8" aria-pressed="false"></button>
+            <button class="card-control" type="button" aria-label="道友闪卡 9" aria-pressed="false"></button>
+          </div>
+        </div>
+
+        <div id="fallback" class="fallback" hidden>
+          <p id="fallback-copy">当前设备暂时无法显示 3D 效果，已切换为静态卡面。</p>
+          <button id="retry" class="retry" type="button">重新加载</button>
+          <div class="fallback-grid" aria-label="九张道友静态卡片">
+            <img src="./assets/source.jpg" alt="道友闪卡 1" />
+            <img src="./assets/source.jpg" alt="道友闪卡 2" />
+            <img src="./assets/source.jpg" alt="道友闪卡 3" />
+            <img src="./assets/source.jpg" alt="道友闪卡 4" />
+            <img src="./assets/source.jpg" alt="道友闪卡 5" />
+            <img src="./assets/source.jpg" alt="道友闪卡 6" />
+            <img src="./assets/source.jpg" alt="道友闪卡 7" />
+            <img src="./assets/source.jpg" alt="道友闪卡 8" />
+            <img src="./assets/source.jpg" alt="道友闪卡 9" />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>THE MORTAL JOURNEY</span>
+      <span>九卡同源 · 独立响应</span>
+    </footer>
+
+    <script type="module" src="./app.bundle.js"></script>
+  </body>
+</html>

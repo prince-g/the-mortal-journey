@@ -1,0 +1,37 @@
+{
+  "title": "",
+  "subtitle": "",
+  "technique": "",
+  "tagline": "",
+  "edition": "",
+  "collection": "",
+  "description": "",
+  "sourceMode": "composite",
+  "assets": {
+    "subject": "./assets/subject.png",
+    "background": "./assets/background.png",
+    "text": "./assets/text.png",
+    "lineart": "./assets/lineart.png",
+    "model": "./assets/card.glb"
+  },
+  "parameters": {
+    "subjectScale": 1.25,
+    "subjectDepth": 0.28,
+    "backgroundDepth": -0.2,
+    "foil": 0.62
+  },
+  "runtimeComposition": {
+    "subjectScale": 1,
+    "safeScale": 1
+  },
+  "safeArea": {
+    "scale": 1.08,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "appearance": {
+    "background": "#06181f"
+  }
+}
