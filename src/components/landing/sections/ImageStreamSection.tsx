@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import wordmark from "../../../assets/marks/凡人修仙.svg";
-import image412a from "../../../assets/images/412a1593-1ae5-434c-90d3-da49b26ff721.png";
-import image46ef from "../../../assets/images/46efbad1-63cc-40dd-89e1-fe5525738cc1.png";
-import image4c2b from "../../../assets/images/4c2b81a9-4d73-4fe0-a271-30f28ff46465.png";
-import image5178 from "../../../assets/images/51787b10-8a18-4e40-89b8-802dab9938b0.jpg";
-import image76e6 from "../../../assets/images/76e62d16-2318-49e5-84b0-f41a028c9074.png";
-import imageB6cc from "../../../assets/images/b6cca74f-0987-435c-aa78-f540168320b9.png";
-import imageBf51 from "../../../assets/images/bf512603-c014-408b-b774-84e541654193.jpg";
-import imageC1e3 from "../../../assets/images/c1e3141b-7506-4157-b8c4-b00af33e21a8.png";
-import imageCe8b from "../../../assets/images/ce8bc8c4-90e8-45fd-b75a-c4c2a93d50da.png";
+import image412a from "../../../assets/images/xuanzimages/1f54a096-7cbd-4767-8631-9f0aed86fe50.jpg";
+import image46ef from "../../../assets/images/xuanzimages/2afaa8a5-9b2c-43fe-8cd5-3fa90d45957d.jpg";
+import image4c2b from "../../../assets/images/xuanzimages/3b194c18-7304-4a52-9ab4-f03453cbf67f.jpg";
+import image5178 from "../../../assets/images/xuanzimages/4b7be0de-fbea-4382-9c8c-3ab9ce705787.jpg";
+import image76e6 from "../../../assets/images/xuanzimages/7de0a4d4-8946-4515-8027-fe71960863dc.jpg";
+import imageB6cc from "../../../assets/images/xuanzimages/46efbad1-63cc-40dd-89e1-fe5525738cc1.png";
+import imageBf51 from "../../../assets/images/xuanzimages/55abe41f-d451-4bb2-9dd9-97cf13a0e87b.jpg";
+import imageC1e3 from "../../../assets/images/xuanzimages/e091a92f-4be7-4e07-af10-9f80573e2aca.png";
+import imageCe8b from "../../../assets/images/xuanzimages/e3283bce-7311-4aae-9bff-07dcf003b690.png";
 import "./ImageStreamSection.css";
 
 const streamImages = [

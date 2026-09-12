@@ -7,7 +7,7 @@ const navigationItems = [
   { label: "凡人之道", href: "#mortal-way" },
   { label: "壁纸合集", href: "#wallpapers" },
   { label: "特效动图", href: "#effects" },
-  { label: "关于社民党", href: "#about" },
+  { label: "关于凡人", href: "#about" },
 ];
 
 const linkClassName =
@@ -41,7 +41,7 @@ export function SiteHeader() {
         <div className="flex items-center justify-self-end gap-2 md:gap-3">
           <a
             href="#about"
-            aria-label="前往社民党介绍"
+            aria-label="前往凡人介绍"
             className="grid size-11 place-items-center rounded-full text-[#E6ECE8]/84 transition-colors hover:bg-[#E6ECE8]/8 hover:text-[#E6ECE8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C49A62]"
           >
             <UserRound aria-hidden="true" size={20} strokeWidth={1.6} />

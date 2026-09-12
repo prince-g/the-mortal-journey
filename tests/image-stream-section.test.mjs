@@ -33,7 +33,7 @@ test("双轨影像流之后由关于页脚完成首页收束", () => {
   assert.equal((html.match(/id="about"/g) ?? []).length, 1);
   assert.ok(html.indexOf('id="effects"') < html.indexOf('<footer id="about"'));
   assert.match(html, /<nav[^>]+aria-label="页脚导航"/);
-  assert.match(html, /关于社民党/);
+  assert.match(html, /关于凡人/);
   assert.match(html, /alt="呐喊风格人物油画"/);
 });
 
