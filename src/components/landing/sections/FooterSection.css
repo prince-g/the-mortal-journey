@@ -1,0 +1,206 @@
+.footer-about {
+  --footer-ink: #e6ece8;
+  --footer-muted: rgb(230 236 232 / 0.58);
+  --footer-accent: #c49a62;
+  position: relative;
+  overflow: hidden;
+  background: #07191d;
+  color: var(--footer-ink);
+}
+
+.footer-about__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  width: min(100%, 1600px);
+  min-height: clamp(40rem, 56vw, 50rem);
+  margin-inline: auto;
+  padding: clamp(3rem, 4vw, 4.5rem) clamp(1.5rem, 5vw, 5rem);
+}
+
+.footer-about__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  padding-block: clamp(0.5rem, 1.5vw, 1.5rem);
+}
+
+.footer-about__title {
+  max-width: 8.5ch;
+  font-size: clamp(3.25rem, 5.8vw, 6rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+}
+
+.footer-about__title span {
+  display: block;
+}
+
+.footer-about__title span:last-child {
+  color: rgb(230 236 232 / 0.4);
+}
+
+.footer-about__description {
+  max-width: 33rem;
+  margin-top: clamp(1.75rem, 3.5vw, 3rem);
+  color: var(--footer-muted);
+  font-family: var(--font-navigation);
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.footer-about__nav {
+  display: flex;
+  width: fit-content;
+  gap: 0.6rem;
+  margin-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.footer-about__nav a {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid rgb(230 236 232 / 0.14);
+  border-radius: 999px;
+  color: rgb(230 236 232 / 0.72);
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.footer-about__nav a:hover {
+  border-color: var(--footer-accent);
+  background: var(--footer-accent);
+  color: #07191d;
+  animation: footer-icon-bounce 400ms linear;
+}
+
+.footer-about__nav a:focus-visible {
+  outline: 2px solid var(--footer-accent);
+  outline-offset: 4px;
+}
+
+.footer-about__nav a:active {
+  transform: translateY(1px);
+}
+
+.footer-about__meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(230 236 232 / 0.12);
+}
+
+.footer-about__monogram {
+  color: rgb(230 236 232 / 0.86);
+  font-family: var(--font-navigation);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.footer-about__meta div {
+  color: rgb(230 236 232 / 0.62);
+  font-family: var(--font-navigation);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  text-align: right;
+}
+
+.footer-about__media {
+  align-self: center;
+  aspect-ratio: 1672 / 941;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #0b2429;
+  box-shadow: 0 2rem 5rem rgb(0 11 14 / 0.32);
+}
+
+.footer-about__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.01);
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-about__media:hover img {
+  transform: scale(1.035);
+}
+
+@keyframes footer-icon-bounce {
+  40% {
+    transform: scale(1.22);
+  }
+
+  65% {
+    transform: scale(0.92);
+  }
+
+  85% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-about__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    min-height: auto;
+    padding: 4rem 1rem 1rem;
+  }
+
+  .footer-about__content {
+    min-height: 31rem;
+    padding: 0 0.25rem;
+  }
+
+  .footer-about__title {
+    font-size: clamp(3rem, 15vw, 4.6rem);
+  }
+
+  .footer-about__description {
+    max-width: 30rem;
+    font-size: 0.96rem;
+  }
+
+  .footer-about__meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .footer-about__meta div {
+    text-align: left;
+  }
+
+  .footer-about__media {
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-about__nav a,
+  .footer-about__media img {
+    transition: none;
+  }
+
+  .footer-about__nav a:hover {
+    animation: none;
+  }
+}

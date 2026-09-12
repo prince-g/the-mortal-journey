@@ -17,7 +17,7 @@ export function RedSection() {
           <p className="mb-[32px] font-marck text-[120px] leading-none text-white">
             S.P.D
           </p>
-          <div id="about" className="mb-[100px] scroll-mt-20 md:mb-24">
+          <div className="mb-[100px] md:mb-24">
             <p className="mb-[24px] w-[400px] max-w-full text-[16px] font-light text-white">
               Everything your business runs on — schedules, tasks, and follow-ups —
               comes together in one quiet, automatic flow.

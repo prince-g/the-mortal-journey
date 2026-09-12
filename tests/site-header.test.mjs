@@ -30,6 +30,6 @@ test("首页导航完整呈现品牌、五个锚点和用户入口", () => {
   assert.match(html, /href="#mortal-way"[^>]*>凡人之道</);
   assert.match(html, /href="#wallpapers"[^>]*>壁纸合集</);
   assert.match(html, /href="#effects"[^>]*>特效动图</);
-  assert.match(html, /href="#about"[^>]*>关于我</);
-  assert.match(html, /aria-label="用户中心"/);
+  assert.match(html, /href="#about"[^>]*>关于社民党</);
+  assert.match(html, /aria-label="前往社民党介绍"/);
 });

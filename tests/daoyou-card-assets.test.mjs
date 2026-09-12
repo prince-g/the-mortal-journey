@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
@@ -78,4 +79,45 @@ test("四层 PNG 使用同一画布且人物层含 alpha", async () => {
     layers.find(({ name }) => name === "subject")?.hasAlpha,
     true,
   );
+});
+
+test("九宫格使用九套独立且已同步的分层素材", async () => {
+  const sourceRoot = "card-projects/daoyou/web";
+  const publicRoot = "public/gallery/daoyou";
+  const config = JSON.parse(
+    await readFile(`${sourceRoot}/card-config.json`, "utf8"),
+  );
+
+  assert.equal(config.cards.length, 9);
+
+  const hashes = { subject: new Set(), background: new Set(), lineart: new Set() };
+  for (let index = 0; index < 9; index += 1) {
+    const cardNumber = index + 1;
+    const expectedAssets = {
+      subject: `./assets/card${cardNumber}/subject.png`,
+      background: `./assets/card${cardNumber}/background.png`,
+      text: `./assets/card${cardNumber}/text.png`,
+      lineart: `./assets/card${cardNumber}/lineart.png`,
+    };
+    assert.deepEqual(config.cards[index].assets, expectedAssets);
+
+    for (const layer of Object.keys(expectedAssets)) {
+      const relative = `assets/card${cardNumber}/${layer}.png`;
+      const [sourceBytes, publicBytes] = await Promise.all([
+        readFile(`${sourceRoot}/${relative}`),
+        readFile(`${publicRoot}/${relative}`),
+      ]);
+      assert.deepEqual(publicBytes, sourceBytes, `${relative} 发布副本未同步`);
+      assert.equal(sourceBytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+      assert.equal(sourceBytes.readUInt32BE(16), 941);
+      assert.equal(sourceBytes.readUInt32BE(20), 1672);
+      if (layer in hashes) {
+        hashes[layer].add(createHash("sha256").update(sourceBytes).digest("hex"));
+      }
+    }
+  }
+
+  assert.equal(hashes.subject.size, 9, "九张卡的人物层必须互不相同");
+  assert.equal(hashes.background.size, 9, "九张卡的背景层必须互不相同");
+  assert.equal(hashes.lineart.size, 9, "九张卡的线稿层必须互不相同");
 });

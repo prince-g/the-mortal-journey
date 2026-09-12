@@ -20,19 +20,21 @@ after(async () => {
   await server?.close();
 });
 
-test("首页以九张图片组成的双轨影像流收尾", () => {
+test("双轨影像流之后由关于页脚完成首页收束", () => {
   const html = renderToStaticMarkup(createElement(HomePage));
-  const sectionIds = [...html.matchAll(/<section[^>]+id="([^"]+)"/g)].map(
-    ([, id]) => id,
-  );
   const imageStream = html.match(
     /<section[^>]+id="effects"[\s\S]*?<\/section>/,
   )?.[0];
 
-  assert.equal(sectionIds.at(-1), "effects");
   assert.ok(imageStream);
   assert.equal((imageStream.match(/data-stream-rail=/g) ?? []).length, 2);
   assert.equal((imageStream.match(/data-stream-card=/g) ?? []).length, 18);
+  assert.match(html, /<footer[^>]+id="about"[^>]+aria-label="网站页脚"/);
+  assert.equal((html.match(/id="about"/g) ?? []).length, 1);
+  assert.ok(html.indexOf('id="effects"') < html.indexOf('<footer id="about"'));
+  assert.match(html, /<nav[^>]+aria-label="页脚导航"/);
+  assert.match(html, /关于社民党/);
+  assert.match(html, /alt="呐喊风格人物油画"/);
 });
 
 test("移除红区视频后，后续影像流承接特效锚点", () => {

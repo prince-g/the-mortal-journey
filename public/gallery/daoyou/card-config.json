@@ -36,14 +36,86 @@
     "background": "#06181f"
   },
   "cards": [
-    { "parameters": { "foilHue": 0.0 } },
-    { "parameters": { "foilHue": 0.09 } },
-    { "parameters": { "foilHue": 0.18 } },
-    { "parameters": { "foilHue": 0.27 } },
-    { "parameters": { "foilHue": 0.36 } },
-    { "parameters": { "foilHue": 0.45 } },
-    { "parameters": { "foilHue": 0.54 } },
-    { "parameters": { "foilHue": 0.63 } },
-    { "parameters": { "foilHue": 0.72 } }
+    {
+      "assets": {
+        "subject": "./assets/card1/subject.png",
+        "background": "./assets/card1/background.png",
+        "text": "./assets/card1/text.png",
+        "lineart": "./assets/card1/lineart.png"
+      },
+      "parameters": { "foilHue": 0.0 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card2/subject.png",
+        "background": "./assets/card2/background.png",
+        "text": "./assets/card2/text.png",
+        "lineart": "./assets/card2/lineart.png"
+      },
+      "parameters": { "foilHue": 0.09 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card3/subject.png",
+        "background": "./assets/card3/background.png",
+        "text": "./assets/card3/text.png",
+        "lineart": "./assets/card3/lineart.png"
+      },
+      "parameters": { "foilHue": 0.18 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card4/subject.png",
+        "background": "./assets/card4/background.png",
+        "text": "./assets/card4/text.png",
+        "lineart": "./assets/card4/lineart.png"
+      },
+      "parameters": { "foilHue": 0.27 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card5/subject.png",
+        "background": "./assets/card5/background.png",
+        "text": "./assets/card5/text.png",
+        "lineart": "./assets/card5/lineart.png"
+      },
+      "parameters": { "foilHue": 0.36 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card6/subject.png",
+        "background": "./assets/card6/background.png",
+        "text": "./assets/card6/text.png",
+        "lineart": "./assets/card6/lineart.png"
+      },
+      "parameters": { "foilHue": 0.45 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card7/subject.png",
+        "background": "./assets/card7/background.png",
+        "text": "./assets/card7/text.png",
+        "lineart": "./assets/card7/lineart.png"
+      },
+      "parameters": { "foilHue": 0.54 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card8/subject.png",
+        "background": "./assets/card8/background.png",
+        "text": "./assets/card8/text.png",
+        "lineart": "./assets/card8/lineart.png"
+      },
+      "parameters": { "foilHue": 0.63 }
+    },
+    {
+      "assets": {
+        "subject": "./assets/card9/subject.png",
+        "background": "./assets/card9/background.png",
+        "text": "./assets/card9/text.png",
+        "lineart": "./assets/card9/lineart.png"
+      },
+      "parameters": { "foilHue": 0.72 }
+    }
   ]
 }

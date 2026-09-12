@@ -9,6 +9,7 @@ import { VideoHeroSection } from "../../components/landing/sections/VideoHeroSec
 import { WallpaperGallerySection } from "../../components/landing/sections/WallpaperGallerySection";
 import { RedSection } from "../../components/landing/sections/RedSection";
 import { ImageStreamSection } from "../../components/landing/sections/ImageStreamSection";
+import { FooterSection } from "../../components/landing/sections/FooterSection";
 
 export function HomePage() {
   const [showStartup, setShowStartup] = useState(
@@ -38,6 +39,7 @@ export function HomePage() {
         <WallpaperGallerySection />
         <RedSection />
         <ImageStreamSection />
+        <FooterSection />
       </div>
     </main>
   );
