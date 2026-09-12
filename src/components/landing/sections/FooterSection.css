@@ -66,11 +66,18 @@
   place-items: center;
   border: 1px solid rgb(230 236 232 / 0.14);
   border-radius: 999px;
+  background: #fff;
   color: rgb(230 236 232 / 0.72);
   transition:
     border-color 220ms ease,
     background-color 220ms ease,
     color 220ms ease;
+}
+
+.footer-about__nav a img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
 }
 
 .footer-about__nav a:hover {

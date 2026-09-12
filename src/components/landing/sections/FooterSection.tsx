@@ -1,12 +1,12 @@
-import { BookOpenText, House, Images, Sparkles } from "lucide-react";
 import footerArtwork from "../../../assets/images/footer-artwork.png";
 import "./FooterSection.css";
 
+// TODO: 把每个 href 的 "#" 替换成真实的社交主页 / 联系方式
 const footerLinks = [
-  { label: "返回首页", href: "#home", Icon: House },
-  { label: "阅读凡人之道", href: "#mortal-way", Icon: BookOpenText },
-  { label: "浏览壁纸合集", href: "#wallpapers", Icon: Images },
-  { label: "观看特效动图", href: "#effects", Icon: Sparkles },
+  { label: "GitHub", href: "#", icon: "/gallery/daoyou/assets/logo/github-icon.svg" },
+  { label: "Gitee", href: "#", icon: "/gallery/daoyou/assets/logo/gitee-svgrepo-com.svg" },
+  { label: "Gmail", href: "#", icon: "/gallery/daoyou/assets/logo/google-gmail.svg" },
+  { label: "QQ", href: "#", icon: "/gallery/daoyou/assets/logo/qq-fill-svgrepo-com.svg" },
 ];
 
 export function FooterSection() {
@@ -29,9 +29,16 @@ export function FooterSection() {
           </div>
 
           <nav className="footer-about__nav" aria-label="页脚导航">
-            {footerLinks.map(({ label, href, Icon }) => (
-              <a key={href} href={href} aria-label={label} title={label}>
-                <Icon aria-hidden="true" size={21} strokeWidth={1.6} />
+            {footerLinks.map(({ label, href, icon }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                title={label}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={icon} alt="" aria-hidden="true" />
               </a>
             ))}
           </nav>
