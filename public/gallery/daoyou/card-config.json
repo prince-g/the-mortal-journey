@@ -18,7 +18,7 @@
     "subjectScale": 1.25,
     "subjectDepth": 0.28,
     "backgroundDepth": -0.2,
-    "foil": 0.62,
+    "foil": 0.85,
     "foilHue": 0
   },
   "runtimeComposition": {

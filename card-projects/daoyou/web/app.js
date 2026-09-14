@@ -49,7 +49,7 @@ vec2 parallax(vec2 uv, float depth) {
   return uv + uView.xy / max(abs(uView.z), .4) * depth * .10;
 }
 vec3 spectrum(float phase) {
-  return .66 + .25 * cos(6.28318 * (phase + vec3(0., .33, .67)));
+  return .60 + .40 * cos(6.28318 * (phase + vec3(0., .33, .67)));
 }
 vec3 film(vec2 uv) {
   float phase = uv.x * .85 + uv.y * .55 + uView.x * 1.5 - uView.y * .9 + uFoilHue;
@@ -74,15 +74,15 @@ void main() {
   vec3 foil = film(uv);
   float band = sweep(uv);
   float luminance = dot(col,vec3(.2126,.7152,.0722));
-  col *= 1. - uFoil * .18 * (1.-foil) * (.2 + band*.8);
-  col += foil * uFoil * band * (.07 + .12*(1.-luminance));
+  col *= 1. - uFoil * .26 * (1.-foil) * (.2 + band*.8);
+  col += foil * uFoil * band * (.14 + .24*(1.-luminance));
   float edge = 1.-smoothstep(.015,.06,min(min(uv.x,1.-uv.x),min(uv.y,1.-uv.y)));
-  col = mix(col,foil*.75+.21,edge*uFoil*.34);
+  col = mix(col,foil*.75+.21,edge*uFoil*.5);
   vec2 cell = floor(uv*vec2(480.,720.));
   float flake = step(.994,hash(cell))*pow(.5+.5*sin(hash(cell+8.)*30.+uView.x*20.+uTime*.6),10.);
-  col += foil*flake*uFoil*.14;
+  col += foil*flake*uFoil*.22;
   float line = (1.-smoothstep(.06,.25,texture2D(tLine,clamp(su,0.,1.)).r))*uHasLine;
-  col += line*inside(su)*subject.a*band*uFoil*.07;
+  col += line*inside(su)*subject.a*band*uFoil*.14;
   vec4 text = texture2D(tText,uv);
   col = mix(col,text.rgb,text.a);
   gl_FragColor = vec4(pow(clamp(col,0.,1.),vec3(2.2)),1.);
