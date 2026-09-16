@@ -34,11 +34,22 @@ def numbered_lineart() -> dict[int, Path]:
     return result
 
 
+def fit_layer(image: Image.Image, mode: str) -> Image.Image:
+    """Decode by file content and register every layer on the card canvas."""
+    if mode == "RGBA":
+        image = image.convert("RGBA")
+        return ImageOps.fit(image, TARGET_SIZE, Image.Resampling.LANCZOS)
+    image = image.convert("RGB")
+    return ImageOps.fit(image, TARGET_SIZE, Image.Resampling.LANCZOS)
+
+
 def prepare_registered_layers(
     subject_path: Path,
     lineart_path: Path,
     crop: tuple[int, int, int, int] | None,
 ) -> tuple[Image.Image, Image.Image]:
+    # Pillow reads mislabeled WebP/JPEG files from their headers. Always
+    # re-encode the result below as a real PNG instead of trusting extensions.
     subject = Image.open(subject_path).convert("RGBA")
     if subject_path.stem == "4":
         from rembg import new_session, remove
@@ -51,10 +62,7 @@ def prepare_registered_layers(
         lineart = lineart.resize(subject.size, Image.Resampling.LANCZOS)
 
     if crop is None:
-        return (
-            ImageOps.fit(subject, TARGET_SIZE, Image.Resampling.LANCZOS),
-            ImageOps.fit(lineart, TARGET_SIZE, Image.Resampling.LANCZOS),
-        )
+        return fit_layer(subject, "RGBA"), fit_layer(lineart, "RGB")
 
     subject = subject.crop(crop)
     lineart = lineart.crop(crop)
@@ -86,9 +94,9 @@ def prepare_background(path: Path) -> Image.Image:
 def save_layers(card_number: int, subject: Image.Image, background: Image.Image, lineart: Image.Image) -> None:
     destination = ASSET_ROOT / f"card{card_number}"
     destination.mkdir(parents=True, exist_ok=True)
-    subject.save(destination / "subject.png", optimize=True)
-    background.save(destination / "background.png", optimize=True)
-    lineart.save(destination / "lineart.png", optimize=True)
+    fit_layer(subject, "RGBA").save(destination / "subject.png", optimize=True)
+    fit_layer(background, "RGB").save(destination / "background.png", optimize=True)
+    fit_layer(lineart, "RGB").save(destination / "lineart.png", optimize=True)
     shutil.copyfile(ASSET_ROOT / "text.png", destination / "text.png")
 
 

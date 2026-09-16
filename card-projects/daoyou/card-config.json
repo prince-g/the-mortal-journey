@@ -15,9 +15,9 @@
   },
   "parameters": {
     "subjectScale": 1.25,
-    "subjectDepth": 0.28,
-    "backgroundDepth": -0.2,
-    "foil": 0.62
+    "subjectDepth": 0.32,
+    "backgroundDepth": -0.24,
+    "foil": 0.78
   },
   "runtimeComposition": {
     "subjectScale": 1,

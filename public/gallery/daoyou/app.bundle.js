@@ -3877,8 +3877,11 @@ void main() {
   vec2 cell = floor(uv*vec2(480.,720.));
   float flake = step(.994,hash(cell))*pow(.5+.5*sin(hash(cell+8.)*30.+uView.x*20.+uTime*.6),10.);
   col += foil*flake*uFoil*.14;
-  float line = (1.-smoothstep(.06,.25,texture2D(tLine,clamp(su,0.,1.)).r))*uHasLine;
-  col += line*inside(su)*subject.a*band*uFoil*.07;
+  // The supplied line drawings are intentionally light gray. Use a broad
+  // threshold so their ink survives WebP/JPEG-to-PNG conversion and remains
+  // a restrained, angle-dependent glow rather than a full white overlay.
+  float line = (1.-smoothstep(.30,.92,texture2D(tLine,clamp(su,0.,1.)).r))*uHasLine;
+  col += line*inside(su)*subject.a*band*uFoil*.12;
   vec4 text = texture2D(tText,uv);
   col = mix(col,text.rgb,text.a);
   gl_FragColor = vec4(pow(clamp(col,0.,1.),vec3(2.2)),1.);
